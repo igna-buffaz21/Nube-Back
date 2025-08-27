@@ -22,6 +22,20 @@ app.post('/upload', upload.single('file'), (req, res) => {
     res.send(`Archivo ${req.file.originalname} subido correctamente!`);
   });
 
+  const fs = require('fs');
+
+app.get('/files', (req, res) => {
+  const uploadsPath = '/srv/proyecto-nube/uploads';
+  fs.readdir(uploadsPath, (err, files) => {
+    if (err) return res.status(500).send('Error al leer la carpeta uploads.');
+    
+    // Crear URLs completas para ver los archivos
+    const fileUrls = files.map(file => `http://${req.hostname}:3000/uploads/${file}`);
+    
+    res.json(fileUrls);
+  });
+});
+
   
 
 const PORT = 3000;
