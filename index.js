@@ -24,18 +24,18 @@ app.post('/upload', upload.single('file'), (req, res) => {
 
   const fs = require('fs');
 
-app.get('/files', (req, res) => {
-  const uploadsPath = '/srv/proyecto-nube/uploads';
-  fs.readdir(uploadsPath, (err, files) => {
-    if (err) return res.status(500).send('Error al leer la carpeta uploads.');
-    
-    // Crear URLs completas para ver los archivos
-    const fileUrls = files.map(file => `http://${req.hostname}:3000/uploads/${file}`);
-    
-    res.json(fileUrls);
+  app.get('/files', (req, res) => {
+    const uploadsPath = '/srv/proyecto-nube/uploads';
+    fs.readdir(uploadsPath, (err, files) => {
+      if (err) return res.status(500).send('Error al leer la carpeta uploads.');
+      
+      // Usar la IP fija de tu Linux en lugar de req.hostname
+      const serverIP = '192.168.0.50'; // reemplazá con la IP de tu Linux
+      const fileUrls = files.map(file => `http://${serverIP}:3000/uploads/${file}`);
+      
+      res.json(fileUrls);
+    });
   });
-});
-
   
 
 const PORT = 3000;
