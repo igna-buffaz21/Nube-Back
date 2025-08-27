@@ -1,8 +1,16 @@
+require('dotenv').config();
 const express = require('express');
 const multer = require('multer');
+const pool = require('./config/db.js');
 const path = require('path');
 
 const app = express();
+
+const usuarioRouter = require('./Router/usuarioR');
+
+app.use(express.json());
+
+app.use('/api/usuarios', usuarioRouter);
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -21,9 +29,15 @@ const upload = multer({ storage: storage });
 
 app.use('/uploads', express.static('/srv/proyecto-nube/uploads'));
 
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
-})
+app.get('/', async (req, res) => {
+  try {
+    const [rows] = await pool.query('SELECT 1 + 1 AS result');
+    res.send(`DB connection works! Result: ${rows[0].result}`);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('DB connection failed');
+  }
+});
 
 app.post('/upload', upload.single('file'), (req, res) => {
 
@@ -51,8 +65,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
     });
   });
   
-
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
