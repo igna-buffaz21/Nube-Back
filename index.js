@@ -3,7 +3,21 @@ const multer = require('multer');
 const path = require('path');
 
 const app = express();
-const upload = multer({ dest: '/srv/proyecto-nube/uploads' });
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, '/srv/proyecto-nube/uploads');
+    },
+    filename: (req, file, cb) => {
+      // Extraer extensión original
+      const ext = file.originalname.split('.').pop();
+      // Generar nombre aleatorio
+      const randomName = `${Date.now()}-${Math.round(Math.random() * 1E9)}.${ext}`;
+      cb(null, randomName);
+    }
+  });
+  
+const upload = multer({ storage: storage });
 
 app.use('/uploads', express.static('/srv/proyecto-nube/uploads'));
 
