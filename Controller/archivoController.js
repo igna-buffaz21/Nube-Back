@@ -4,8 +4,9 @@ class ArchivoController {
 
     static async guardarArchivo(req, res) {
         try {
-            const { user_id, original_name, folder_id } = req.body;
+            const { user_id, folder_id } = req.body;
             const file = req.file;
+            const original_name = file.originalname;
 
             console.log("REQ FILE:", req.file);
 
