@@ -8,8 +8,9 @@ class ArchivoController {
             const file = req.file;
 
             console.log("REQ FILE:", req.file);
+            console.log("FILE " + file)
 
-            const resultado = await ArchivosNegocio.guardarArchivo(user_id, file.originalname, folder_id, file);
+            const resultado = await ArchivosNegocio.guardarArchivo(user_id, req.file.originalname, folder_id, file);
 
             if (resultado > 0) {
                 res.status(201).json({ message: 'Archivo guardado correctamente', fileId: resultado });
