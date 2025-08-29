@@ -6,7 +6,7 @@ class ArchivoController {
         try {
             const { user_id, folder_id } = req.body;
             const file = req.file;
-            const original_name = file.originalname;
+            const original_name = req.file.originalname;
 
             console.log("REQ FILE:", req.file);
 

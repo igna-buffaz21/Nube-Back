@@ -21,7 +21,7 @@ class ArchivosNegocio {
 
         const carpetaPath = carpetaExistente.path;
 
-        const ext = path.extname(original_name);
+        const ext = path.extname(file.originalname);
 
         const randomName = `${Date.now()}-${Math.round(Math.random() * 1E9)}${ext}`;
 
