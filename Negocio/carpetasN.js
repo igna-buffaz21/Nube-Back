@@ -1,4 +1,6 @@
 const CarpetasDAO = require('../AccesoDatos/carpetasAD')
+const fs = require('fs');
+const path = require('path');
 
 class CarpetasNegocio {
 
@@ -7,14 +9,38 @@ class CarpetasNegocio {
             throw new Error('Todos los campos son obligatorios');
         }
 
-        const nuevaCarpetaId = await CarpetasDAO.crearCarpeta(user_id, nombre, parent_id);
+        const carpetaExistente = await CarpetasDAO.obtenerCarpetaporId(parent_id);
+
+        if (!carpetaExistente) {
+            throw new Error('La carpeta padre no existe');
+        }
+
+        const carpetaPath = carpetaExistente.path
+
+        const nuevoPath = path.join(carpetaPath, nombre);
+
+        const uploadDir = path.join('/srv/proyecto-nube/uploads/' + carpetaPath, nombre);
+
+        if (fs.existsSync(uploadDir)) {
+            throw new Error('La carpeta ya existe en el sistema de archivos');
+        }
+
+        const nuevaCarpetaId = await CarpetasDAO.crearCarpeta(user_id, nombre, parent_id, nuevoPath);
 
         if (nuevaCarpetaId <= 0) {
             throw new Error('Error al crear la carpeta');
         }
 
-        return { nuevaCarpetaId };
-    }
+        try {
+            fs.mkdirSync(uploadDir, { recursive: true } );
+        }
+        catch (error) 
+        {
+            console.error('Error al crear el directorio de la carpeta:', error);
+            throw new Error('Error al crear el directorio de la carpeta');
+        }
+
+    }   
 
 }
 

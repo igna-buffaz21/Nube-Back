@@ -33,7 +33,7 @@ class UsuariosNegocio {
             throw new Error('Error al crear el usuario');
         }
 
-        await CarpetasDAO.crearCarpeta(nuevoUsuarioId, 'root' + String(nuevoUsuarioId), null);
+        await CarpetasDAO.crearCarpeta(nuevoUsuarioId, 'root' + String(nuevoUsuarioId), null, '/root' + String(nuevoUsuarioId));
 
         const uploadDir = path.join('/srv/proyecto-nube/uploads', String(nuevoUsuarioId));
 
