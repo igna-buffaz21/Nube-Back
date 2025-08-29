@@ -15,7 +15,7 @@ class ArchivosNegocio {
 
         const carpetaExistente = await CarpetasDAO.obtenerCarpetaporId(folder_id);
 
-        if (carpetaExistente.length === 0) {
+        if (!carpetaExistente) {
             throw new Error('La carpeta no existe');
         }
 
