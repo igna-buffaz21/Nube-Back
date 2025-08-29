@@ -19,9 +19,11 @@ class ArchivosNegocio {
 
         const carpetaPath = carpetaExistente.path;
 
-        const uploadDir = path.join('/srv/proyecto-nube/uploads/' + carpetaPath, original_name);
-
         const ext = path.extname(original_name);
+
+        const randomName = `${Date.now()}-${Math.round(Math.random() * 1E9)}${ext}`;
+
+        const uploadDir = path.join('/srv/proyecto-nube/uploads/' + carpetaPath, randomName);
 
         console.log("UPLOADDIR ARCHIVO: " + uploadDir);
 
@@ -32,7 +34,6 @@ class ArchivosNegocio {
         }
 
         try {
-            const randomName = `${Date.now()}-${Math.round(Math.random() * 1E9)}${ext}`;
             const destPath = path.join('/srv/proyecto-nube/uploads/' + carpetaPath, randomName);
 
             await fs.rename(file.path, destPath)
