@@ -1,6 +1,6 @@
 const ArchivosDAO = require('../AccesoDatos/archivosAD')
 const CarpetasDAO = require('../AccesoDatos/carpetasAD')
-const fs = require('fs');
+const fs = require('fs/promises'); // para usar await fs.rename(...)
 const path = require('path');
 
 class ArchivosNegocio {
@@ -39,7 +39,7 @@ class ArchivosNegocio {
         try {
             const destPath = path.join('/srv/proyecto-nube/uploads/' + carpetaPath, randomName);
 
-            await fs.rename(file.path, destPath)
+            await fs.rename(file.path, destPath); // correcto, devuelve promesa
 
             const mime_type = file.mimetype;
             const size = file.size;
