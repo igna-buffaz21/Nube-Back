@@ -7,6 +7,8 @@ class ArchivosNegocio {
 
     static async guardarArchivo(user_id, original_name, folder_id, file) {
 
+        console.log("FILE EN NEGOCIO:", file);
+
         if (user_id <= 0 || !original_name || folder_id <= 0) {
             throw new Error('Todos los campos son obligatorios');
         }
