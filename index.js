@@ -7,10 +7,13 @@ const path = require('path');
 const app = express();
 
 const usuarioRouter = require('./Router/usuarioR');
+const carpetasRouter = require('./Router/carpetasR');
 
 app.use(express.json());
 
+//ruters
 app.use('/api/usuarios', usuarioRouter);
+app.use('api/carpetas', carpetasRouter);
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -29,6 +32,7 @@ const upload = multer({ storage: storage });
 
 app.use('/uploads', express.static('/srv/proyecto-nube/uploads'));
 
+
 app.get('/', async (req, res) => {
   try {
     const [rows] = await pool.query('SELECT 1 + 1 AS result');
@@ -37,7 +41,7 @@ app.get('/', async (req, res) => {
     console.error(err);
     res.status(500).send('DB connection failed');
   }
-});
+}); ///PRUEBA SERVIDOR Y DB
 
 app.post('/upload', upload.single('file'), (req, res) => {
 
@@ -50,7 +54,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
     res.send(`Archivo ${req.file.originalname} subido correctamente!`);
   });
 
-  const fs = require('fs');
+const fs = require('fs');
 
   app.get('/files', (req, res) => {
     const uploadsPath = '/srv/proyecto-nube/uploads';
