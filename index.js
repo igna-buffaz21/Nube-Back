@@ -8,12 +8,15 @@ const app = express();
 
 const usuarioRouter = require('./Router/usuarioR');
 const carpetasRouter = require('./Router/carpetasR');
+const archivosRouter = require('./Router/archivosR');
 
 app.use(express.json());
 
 //ruters
 app.use('/api/usuarios', usuarioRouter);
 app.use('/api/carpetas', carpetasRouter);
+app.use('/api/archivos', archivosRouter);
+
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
