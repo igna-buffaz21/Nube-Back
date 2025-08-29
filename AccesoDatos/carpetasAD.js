@@ -30,7 +30,7 @@ class CarpetasDAO {
             const createdAt = Date.now() / 1000;
             
             const [result] = await pool.query(
-                'INSERT INTO folders (user_id, name, parent_id, created_at, path) VALUES (?, ?, ?, ?)',
+                'INSERT INTO folders (user_id, name, parent_id, created_at, path) VALUES (?, ?, ?, ?, ?)',
                 [user_id, nombre, parent_id, createdAt, path]
               );
 
