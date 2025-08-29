@@ -7,6 +7,8 @@ class ArchivoController {
             const { user_id, original_name, folder_id } = req.body;
             const file = req.file;
 
+            console.log("REQ FILE:", req.file);
+
             const resultado = await ArchivosNegocio.guardarArchivo(user_id, original_name, folder_id, file);
 
             if (resultado > 0) {
