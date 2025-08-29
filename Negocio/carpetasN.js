@@ -17,9 +17,13 @@ class CarpetasNegocio {
 
         const carpetaPath = carpetaExistente.path
 
+        console.log("PATH: " + carpetaPath);
+
         const nuevoPath = path.join(carpetaPath, nombre);
 
         const uploadDir = path.join('/srv/proyecto-nube/uploads/' + carpetaPath, nombre);
+
+        console.log("UPLOADDIR: " + uploadDir);
 
         if (fs.existsSync(uploadDir)) {
             throw new Error('La carpeta ya existe en el sistema de archivos');
