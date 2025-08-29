@@ -3,7 +3,7 @@ const router = express.Router();
 const ArchivoController = require('../Controller/archivoController');
 const multer = require('multer');
 
-const upload = multer({ dest: '/temp'})
+const upload = multer({ dest: '/tmp'})
 
 router.post('/guardarArchivo', upload.single('file'), ArchivoController.guardarArchivo);
 
