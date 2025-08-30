@@ -5,13 +5,13 @@ const pool = require('./config/db.js');
 const path = require('path');
 const cors = require('cors');
 
-app.use(cors({
-    origin: '*', // Permitir todas las IPs
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
-    allowedHeaders: ['Content-Type', 'Authorization'] // Encabezados permitidos
-}))
-
 const app = express();
+
+app.use(cors({
+  origin: '*', // Permitir todas las IPs
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+  allowedHeaders: ['Content-Type', 'Authorization'] // Encabezados permitidos
+}))
 
 const usuarioRouter = require('./Router/usuarioR');
 const carpetasRouter = require('./Router/carpetasR');
