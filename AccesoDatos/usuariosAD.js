@@ -43,6 +43,17 @@ class UsuariosDAO {
             throw error;
         }
     }
+
+    static async iniciarSesion(email) {
+        try {
+            const [rows] = await pool.query('SELECT id, email, password FROM user WHERE email = ?', [email]);
+
+            return rows[0] || null;
+        }
+        catch (error) {
+
+        }
+    }
 }
 
 module.exports = UsuariosDAO;

@@ -2,6 +2,8 @@ const UsuariosDAO = require('../AccesoDatos/usuariosAD');
 const CarpetasDAO = require('../AccesoDatos/carpetasAD');
 const fs = require('fs');
 const path = require('path');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 class UsuariosNegocio {
     static async obtenerTodosLosUsuarios() {
@@ -50,6 +52,32 @@ class UsuariosNegocio {
 
         return { nuevoUsuarioId };
 
+    }
+
+    static async iniciarSesion(email, password) {
+        const user = await UsuariosDAO.iniciarSesion(email);
+
+        if (!user) {
+            throw new Error('Usuario no encontrado');
+        }
+
+        const match = await bcrypt.compare(password, user.password);
+
+        if (!match) {
+            throw new Error('Credenciales incorrectas');
+        }
+
+        const token = jwt.sign(
+            {
+                id: user.id
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: process.env.JWT_EXPIRES_IN
+            }
+        )
+
+        return { token };
     }
 }
 
