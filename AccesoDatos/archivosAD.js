@@ -27,6 +27,18 @@ class ArchivosDAO {
             throw error;
         }
     }
+
+    static async obtenerArchivosPorCarpeta(user_id, folder_id) {
+        try {
+            const [rows] = await pool.query('SELECT * FROM files WHERE user_id = ? AND folder_id = ?', [user_id, folder_id]);
+
+            return rows;
+        }
+        catch (error) {
+            console.error('Error al obtener archivos por carpeta:', error);
+            throw error;
+        }
+    }
 }
 
 module.exports = ArchivosDAO;

@@ -1,4 +1,5 @@
 const CarpetasDAO = require('../AccesoDatos/carpetasAD')
+const ArchivosDAO = require('../AccesoDatos/archivosAD');
 const fs = require('fs');
 const path = require('path');
 
@@ -50,20 +51,39 @@ class CarpetasNegocio {
         if (user_id == 0) {
             throw new Error('Todos los campos son obligatorios');
         }
-    
-        let carpeta; 
+
+        let carpeta;
+        let idCarpetaPadre;
     
         if (parent_id == undefined || parent_id == null || parent_id == 0) {
-            carpeta = await CarpetasDAO.obtenerCarpetas(parseInt(user_id), null);
-        } else {
-            carpeta = await CarpetasDAO.obtenerCarpetas(parseInt(user_id), parseInt(parent_id));
+
+            idCarpetaPadre = await CarpetasDAO.obtenerCarpetasRoot(parseInt(user_id), null);
+
+            if (!idCarpetaPadre || idCarpetaPadre.length === 0) {
+                throw new Error('No se encontró la carpeta raíz para el usuario');
+            }
+
+            carpeta = await CarpetasDAO.obtenerCarpetas(parseInt(user_id), idCarpetaPadre[0].id);
         }
+        else {
+
+            carpeta = await CarpetasDAO.obtenerCarpetas(parseInt(user_id), parseInt(parent_id));
+
+        }
+
     
         if (!carpeta) {
             throw new Error('No se encontraron carpetas');
         }
+
+        const carpetaActualId = parent_id || idCarpetaPadre[0].id;
+
+        const archivos = await ArchivosDAO.obtenerArchivosPorCarpeta(parseInt(user_id), parseInt(carpetaActualId));
     
-        return carpeta;
+        return { 
+            carpetas: carpeta, 
+            archivos: archivos 
+        };
     }
 
 }

@@ -22,7 +22,9 @@ class CarpetasController {
 
             const carpeta = await CarpetasNegocio.obtenerCarpetas(user_id, parent_id);
 
-            res.status(200).json(carpeta);
+            res.status(200).json(
+                carpeta
+            );
         }
         catch (error) {
             console.error('Error en el controlador al obtener carpetas:', error);
