@@ -46,8 +46,9 @@ class CarpetasNegocio {
 
     }
 
-    async obtenerCarpetas(user_id, parent_id) {
-        if (user_id == 0 || parent_id == 0) {
+    static async obtenerCarpetas(user_id, parent_id) {
+
+        if (user_id == 0) {
             throw new Error('Todos los campos son obligatorios');
         }
         
