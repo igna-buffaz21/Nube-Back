@@ -47,17 +47,22 @@ class CarpetasNegocio {
     }
 
     static async obtenerCarpetas(user_id, parent_id) {
-
         if (user_id == 0) {
             throw new Error('Todos los campos son obligatorios');
         }
-        
-        const carpeta = await CarpetasDAO.obtenerCarpetas(user_id, parent_id);
-        
+    
+        let carpeta; 
+    
+        if (parent_id == undefined || parent_id == null || parent_id == 0) {
+            carpeta = await CarpetasDAO.obtenerCarpetas(parseInt(user_id), null);
+        } else {
+            carpeta = await CarpetasDAO.obtenerCarpetas(parseInt(user_id), parseInt(parent_id));
+        }
+    
         if (!carpeta) {
             throw new Error('No se encontraron carpetas');
         }
-
+    
         return carpeta;
     }
 

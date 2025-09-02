@@ -20,7 +20,7 @@ class CarpetasController {
         try {
             const { user_id, parent_id } = req.query;
 
-            const carpeta = await CarpetasNegocio.obtenerCarpetas(parseInt(user_id), parseInt(parent_id));
+            const carpeta = await CarpetasNegocio.obtenerCarpetas(user_id, parent_id);
 
             res.status(200).json(carpeta);
         }
