@@ -41,6 +41,18 @@ class CarpetasDAO {
             throw error;
         }
     }
+
+    static async obtenerCarpetas(user_id, parent_id) {
+        try {
+            const [rows] = await pool.query('SELECT * FROM folders WHERE user_id = ? AND parent_id = ?', [user_id, parent_id]);
+
+            return rows;
+        }
+        catch (error) {
+            console.error('Error al obtener carpetas por usuario y padre:', error);
+            throw error;
+        }
+    }
 }
 
 module.exports = CarpetasDAO;

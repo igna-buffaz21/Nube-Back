@@ -16,6 +16,20 @@ class CarpetasController {
         }
     }
 
+    async obtenerCarpetas(req, res) {
+        try {
+            const { user_id, parent_id } = req.query;
+
+            const carpeta = await CarpetasNegocio.obtenerCarpetas(parseInt(user_id), parseInt(parent_id));
+
+            res.status(200).json(carpeta);
+        }
+        catch (error) {
+            console.error('Error en el controlador al obtener carpetas:', error);
+            res.status(500).json({ error: error.message });
+        }
+    }
+
 }
 
 module.exports = new CarpetasController();
