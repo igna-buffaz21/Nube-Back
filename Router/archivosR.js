@@ -7,5 +7,7 @@ const upload = multer({ dest: '/tmp'})
 
 router.post('/guardarArchivo', upload.single('file'), ArchivoController.guardarArchivo);
 
+router.get('/servirArchivo', ArchivoController.servirArchivos)
+
 module.exports = router;
 

@@ -25,6 +25,22 @@ class ArchivoController {
         }
     }
 
+    static async servirArchivos(req, res) {
+        try {
+            const { id_file, user_id } = req.query
+
+            const response = await ArchivosNegocio.servirArchivos(id_file, user_id)
+
+            res.setHeader("Content-Disposition", "inline");
+            res.sendFile(response.file_path);   
+        
+        }
+        catch (error) {
+            console.error('Error en el controlador al servir archivo:', error);
+            res.status(500).json({ error: error.message });
+        }
+    }
+
 }
 
 module.exports = ArchivoController;

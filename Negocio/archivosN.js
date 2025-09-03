@@ -56,6 +56,23 @@ class ArchivosNegocio {
         
     }
 
+    static async servirArchivos(file_id, user_id) {
+        const file = await ArchivosDAO.obtenerArchivoPorId(file_id, user_id)
+
+        if (!file) {
+            throw new Error('No existe el archivo que se solicito');
+        }
+
+        const file_path = file.path
+        const original_name = file.original_name
+
+        if (!fs.existsSync(file_path)) {
+            throw new Error('No existe el archivo que se solicito');
+        }
+
+        return {file_path, original_name}
+    }
+
 }
 
 module.exports = ArchivosNegocio;

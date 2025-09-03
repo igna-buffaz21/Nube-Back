@@ -39,6 +39,18 @@ class ArchivosDAO {
             throw error;
         }
     }
+
+    static async obtenerArchivoPorId(file_id, user_id) {
+        try {
+            const [rows] = await pool.query('SELECT id, path, original_name FROM files WHERE id = ? AND user_id = ?', [file_id, user_id])
+
+            return rows;
+        }
+        catch (error) {
+            console.error('Error al obtener archivos', error);
+            throw error;
+        }
+    }
 }
 
 module.exports = ArchivosDAO;
