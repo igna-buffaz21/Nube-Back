@@ -63,7 +63,7 @@ class ArchivosNegocio {
             throw new Error('No existe el archivo que se solicito');
         }
 
-        console.log("FILE: " + file)
+        console.log("FILE: " + file[0].id)
 
         const file_path = file.path
         console.log("FILE_PATH: " + file_path)
