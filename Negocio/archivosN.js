@@ -63,11 +63,11 @@ class ArchivosNegocio {
             throw new Error('No existe el archivo que se solicito');
         }
 
-        console.log("FILE: " + file[0].id)
+        console.log("FILE: " + file[0])
 
-        const file_path = file.path
+        const file_path = file[0].path
         console.log("FILE_PATH: " + file_path)
-        const original_name = file.original_name
+        const original_name = file[0].original_name
 
         if (!fs.access(file_path)) {
             throw new Error('No existe el archivo que se solicito');
