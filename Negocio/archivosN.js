@@ -66,7 +66,7 @@ class ArchivosNegocio {
         const file_path = file.path
         const original_name = file.original_name
 
-        if (!fs.existsSync(file_path)) {
+        if (!fs.access(file_path)) {
             throw new Error('No existe el archivo que se solicito');
         }
 
