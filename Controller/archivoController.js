@@ -41,6 +41,20 @@ class ArchivoController {
         }
     }
 
+    static async obtenerPesoUsadoPorUsuario(req, res) {
+        try {
+            const { user_id } = req.query
+
+            const response = await ArchivosNegocio.obtenerPesoUsadoPorUsuario(user_id);
+
+            res.status(200).json({message: response})
+        }
+        catch (error) {
+            console.error('Error en el controlador al servir archivo:', error);
+            res.status(500).json({ error: error.message });
+        }
+    }
+
 }
 
 module.exports = ArchivoController;

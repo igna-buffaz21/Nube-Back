@@ -87,6 +87,21 @@ class ArchivosNegocio {
         return {file_path, original_name}
     }
 
+    static async obtenerPesoUsadoPorUsuario(user_id) {
+        if (!user_id || user_id <= 0) {
+            throw new Error('Usuario no valido');
+        }
+
+        const response = await ArchivosDAO.obtenerPesoUsadoPorUsuario(user_id)
+
+        if (response && response.length > 0) {
+            return response[0].size
+        }
+        else {
+            throw new Error('No hay peso registrado');
+        }
+    }
+
 }
 
 module.exports = ArchivosNegocio;

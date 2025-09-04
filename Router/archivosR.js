@@ -9,5 +9,7 @@ router.post('/guardarArchivo', upload.single('file'), ArchivoController.guardarA
 
 router.get('/servirArchivo', ArchivoController.servirArchivos)
 
+router.get('/obtenerPesoPorUsuario', ArchivoController.obtenerPesoUsadoPorUsuario)
+
 module.exports = router;
 

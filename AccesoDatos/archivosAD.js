@@ -51,6 +51,18 @@ class ArchivosDAO {
             throw error;
         }
     }
+
+    static async obtenerPesoUsadoPorUsuario(user_id) {
+        try {
+            const [rows] = await pool.query('SELECT sum(size) FROM files WHERE user_id = ?', [user_id]);
+
+            return rows;
+        }
+        catch (error) {
+            console.error('Error al obtener el peso de los archivos', error);
+            throw error;
+        }
+    }
 }
 
 module.exports = ArchivosDAO;
