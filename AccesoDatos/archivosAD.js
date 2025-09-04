@@ -54,7 +54,7 @@ class ArchivosDAO {
 
     static async obtenerPesoUsadoPorUsuario(user_id) {
         try {
-            const [rows] = await pool.query('SELECT sum(size) FROM files WHERE user_id = ?', [user_id]);
+            const [rows] = await pool.query('SELECT sum(size) as size FROM files WHERE user_id = ?', [user_id]);
 
             return rows;
         }
