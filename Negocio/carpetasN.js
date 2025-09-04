@@ -69,7 +69,7 @@ class CarpetasNegocio {
     
         if (parent_id == undefined || parent_id == null || parent_id == 0) {
 
-            idCarpetaPadre = await CarpetasDAO.obtenerCarpetasRoot(parseInt(user_id), null);
+            idCarpetaPadre = await CarpetasDAO.obtenerCarpetasRoot(parseInt(user_id));
 
             if (!idCarpetaPadre || idCarpetaPadre.length === 0) {
                 throw new Error('No se encontró la carpeta raíz para el usuario');
@@ -89,6 +89,8 @@ class CarpetasNegocio {
         }
 
         const carpetaActualId = parent_id || idCarpetaPadre[0].id;
+
+        console.log("SE ESTA BUSCANDO EN: " + carpetaActualId)
 
         const archivos = await ArchivosDAO.obtenerArchivosPorCarpeta(parseInt(user_id), parseInt(carpetaActualId));
     
