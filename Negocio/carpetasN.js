@@ -11,9 +11,15 @@ class CarpetasNegocio {
         }
 
         if (parent_id == 0) {
-            const response = CarpetasDAO.obtenerCarpetasRoot(user_id)
+            const response = await CarpetasDAO.obtenerCarpetasRoot(user_id)
+
+            if (response && response.length > 0) {
+                parent_id = response[0].id
+            }
+            else {
+                throw new Error('No se encontro la carpeta root');
+            }
             
-            parent_id = response[0].id
         }
 
         const carpetaExistente = await CarpetasDAO.obtenerCarpetaporId(parent_id);
