@@ -2,6 +2,7 @@ const CarpetasDAO = require('../AccesoDatos/carpetasAD')
 const ArchivosDAO = require('../AccesoDatos/archivosAD');
 const fs = require('fs');
 const path = require('path');
+const { response } = require('express');
 
 class CarpetasNegocio {
 
@@ -66,16 +67,19 @@ class CarpetasNegocio {
 
         let carpeta;
         let idCarpetaPadre;
+
     
         if (parent_id == undefined || parent_id == null || parent_id == 0) {
 
-            idCarpetaPadre = await CarpetasDAO.obtenerCarpetasRoot(parseInt(user_id));
+            const response = await CarpetasDAO.obtenerCarpetasRoot(parseInt(user_id));
 
-            if (!idCarpetaPadre || idCarpetaPadre.length === 0) {
+            if (!response || response.length === 0) {
                 throw new Error('No se encontró la carpeta raíz para el usuario');
             }
 
-            carpeta = await CarpetasDAO.obtenerCarpetas(parseInt(user_id), idCarpetaPadre[0].id);
+            carpeta = await CarpetasDAO.obtenerCarpetas(parseInt(user_id), response[0].id);
+
+            parent_id = response[0].id
         }
         else {
 
@@ -88,11 +92,9 @@ class CarpetasNegocio {
             throw new Error('No se encontraron carpetas');
         }
 
-        const carpetaActualId = parent_id || idCarpetaPadre[0].id;
+        console.log("SE ESTA BUSCANDO EN: " + parent_id)
 
-        console.log("SE ESTA BUSCANDO EN: " + carpetaActualId)
-
-        const archivos = await ArchivosDAO.obtenerArchivosPorCarpeta(parseInt(user_id), parseInt(carpetaActualId));
+        const archivos = await ArchivosDAO.obtenerArchivosPorCarpeta(parseInt(user_id), parseInt(parent_id));
     
         return { 
             carpetas: carpeta, 
