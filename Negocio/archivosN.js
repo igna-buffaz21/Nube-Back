@@ -10,8 +10,19 @@ class ArchivosNegocio {
         console.log("FILE EN NEGOCIO:", file);
         console.log("FOLDER ID " + folder_id);
 
-        if (user_id <= 0 || !original_name || folder_id <= 0) {
+        if (user_id <= 0 || !original_name || folder_id == undefined || folder_id == null) {
             throw new Error('Todos los campos son obligatorios');
+        }
+
+        if (folder_id == 0) {
+            const response = await CarpetasDAO.obtenerCarpetasRoot(user_id)
+
+            if (response && response.length > 0) {
+                folder_id = response[0].id
+            }
+            else {
+                throw new Error('No se encontro la carpeta root');
+            }
         }
 
         const carpetaExistente = await CarpetasDAO.obtenerCarpetaporId(folder_id);
