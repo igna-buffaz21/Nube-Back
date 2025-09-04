@@ -6,8 +6,14 @@ const path = require('path');
 class CarpetasNegocio {
 
     static async crearCarpeta(user_id, nombre, parent_id) {
-        if (user_id == 0 || !nombre || parent_id == 0) {
+        if (user_id == 0 || !nombre || parent_id == undefined || parent_id == null) {
             throw new Error('Todos los campos son obligatorios');
+        }
+
+        if (parent_id == 0) {
+            const response = CarpetasDAO.obtenerCarpetasRoot(user_id)
+            
+            parent_id = response[0].id
         }
 
         const carpetaExistente = await CarpetasDAO.obtenerCarpetaporId(parent_id);
