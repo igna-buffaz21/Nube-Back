@@ -7,6 +7,13 @@ class ArchivosNegocio {
 
     static async guardarArchivo(user_id, original_name, folder_id, file) {
 
+        const ext = path.extname(file.originalname);
+
+        if (ext != 'png' || ext != 'jpeg' || ext != 'webp') {
+            console.log("EXTENSION: " + ext);
+            throw new Error('Formato no valido');
+        }
+
         console.log("FILE EN NEGOCIO:", file);
         console.log("FOLDER ID " + folder_id);
 
@@ -33,7 +40,7 @@ class ArchivosNegocio {
 
         const carpetaPath = carpetaExistente.path;
 
-        const ext = path.extname(file.originalname);
+
 
         const randomName = `${Date.now()}-${Math.round(Math.random() * 1E9)}${ext}`;
 
