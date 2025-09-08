@@ -79,6 +79,16 @@ class UsuariosNegocio {
 
         return { token };
     }
+
+    static async obtenerDatosUsuario(id) {
+        if (!id || id == 0 || id == undefined || id == null) {
+            throw new Error('Id incorrecto');
+        }
+
+        const user = await UsuariosDAO.obtenerDatosUsuario(id)
+
+        return user
+    }
 }
 
 module.exports = UsuariosNegocio;

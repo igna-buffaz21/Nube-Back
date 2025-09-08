@@ -6,5 +6,6 @@ const verifyJWT = require('../Middlewares/auth.middleware');
 router.get('/obtenerTodosLosUsuarios', verifyJWT, UsuarioController.obtenerTodosLosUsuarios);
 router.post('/crearUsuario', UsuarioController.crearUsuario);
 router.post('/iniciarSesion', UsuarioController.iniciarSesion);
+router.get('/obtenerDatosUsuario', UsuarioController.obtenerDatosUsuario);
 
 module.exports = router;

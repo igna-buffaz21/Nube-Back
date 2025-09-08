@@ -54,6 +54,18 @@ class UsuariosDAO {
 
         }
     }
+
+    static async obtenerDatosUsuario(id) {
+        try {
+            const [rows] = await pool.query('SELECT email, name FROM user WHERE id = ?', [id])
+
+            return rows[0];
+        }
+        catch (error) {
+            console.error('Error al obtener datos del usuario por id:', error);
+            throw error;
+        }
+    }
 }
 
 module.exports = UsuariosDAO;

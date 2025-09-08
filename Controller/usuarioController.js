@@ -40,6 +40,20 @@ class UsuarioController {
             res.status(500).json({ error: error.message || 'Error al iniciar sesión' });
         }
     }
+
+    static async obtenerDatosUsuario(req, res) {
+        try {
+            const { id } = req.query
+
+            const usuarios = await UsuariosNegocio.obtenerDatosUsuario(id)
+
+            res.status(200).json({user: usuarios})
+        }
+        catch (error) {
+            console.error('Error en el controlador al obtener datos del usuario:', error);
+            res.status(500).json({ error: error.message || 'Error al obtener datos del usuario' });
+        }
+    }
 }
 
 module.exports = UsuarioController;
