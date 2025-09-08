@@ -9,7 +9,7 @@ class ArchivosNegocio {
 
         const ext = path.extname(file.originalname);
 
-        if (ext != 'png' || ext != 'jpeg' || ext != 'webp') {
+        if (ext != '.png' || ext != '.jpeg' || ext != '.webp') {
             console.log("EXTENSION: " + ext);
             throw new Error('Formato no valido');
         }
