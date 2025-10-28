@@ -77,7 +77,7 @@ class UsuariosNegocio {
             }
         )
 
-        return { token };
+        return { token, id: user.id };
     }
 
     static async obtenerDatosUsuario(id) {

@@ -32,10 +32,10 @@ class UsuarioController {
         try {
             const { email, password } = req.body;
 
-            const resultado = await UsuariosNegocio.iniciarSesion(email, password);
+            const { token, id } = await UsuariosNegocio.iniciarSesion(email, password);
 
             await guardarLog({
-                userId: 1,
+                userId: id,
                 username: "hola",
                 action: "LOGIN",
                 description: `Usuario con email ${email} inició sesión.`,
@@ -45,7 +45,7 @@ class UsuarioController {
 
             console.log('Log de inicio de sesión guardado en MongoDB');
 
-            res.status(200).json({ message: 'Inicio de sesión exitoso', ...resultado });
+            res.status(200).json({ message: 'Inicio de sesión exitoso', token });
         }
         catch (error) {
             console.error('Error en el controlador al iniciar sesión:', error);
