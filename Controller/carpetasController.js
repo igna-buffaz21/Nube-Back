@@ -1,4 +1,5 @@
 const CarpetasNegocio = require('../Negocio/carpetasN');
+const { guardarLog } = require('../AccesoDatos/loggerMongoAD.js');
 
 class CarpetasController {
 
@@ -7,6 +8,15 @@ class CarpetasController {
             const { user_id, nombre, parent_id } = req.body;
 
             const resultado = await CarpetasNegocio.crearCarpeta(user_id, nombre, parent_id);
+
+            await guardarLog({
+                userId: user_id,
+                username: "-",
+                action: "Se creo una carpeta",
+                description: `Creo una nueva carpeta: ${nombre}`,
+                req,
+                date: new Date().toISOString()
+            })
 
             res.status(201).json(resultado);
         }

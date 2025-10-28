@@ -36,8 +36,8 @@ class UsuarioController {
 
             await guardarLog({
                 userId: id,
-                username: "hola",
-                action: "LOGIN",
+                username: "-",
+                action: "Inicio de sesión",
                 description: `Usuario con email ${email} inició sesión.`,
                 req,
                 date: new Date().toISOString()

@@ -1,4 +1,5 @@
 const ArchivosNegocio = require('../Negocio/archivosN');
+const { guardarLog } = require('../AccesoDatos/loggerMongoAD.js');
 
 class ArchivoController {
 
@@ -11,6 +12,15 @@ class ArchivoController {
             console.log("FILE " + file)
 
             const resultado = await ArchivosNegocio.guardarArchivo(user_id, req.file.originalname, folder_id, file);
+
+            await guardarLog({
+                userId: user_id,
+                username: "-",
+                action: "Se subio un archivo",
+                description: `Creo un nuevo archivo: ${req.file.originalname}`,
+                req,
+                date: new Date().toISOString()
+            })
 
             if (resultado > 0) {
                 res.status(201).json({ message: 'Archivo guardado correctamente', fileId: resultado });
