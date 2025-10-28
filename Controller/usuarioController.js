@@ -43,6 +43,8 @@ class UsuarioController {
                 date: new Date().toISOString()
             })
 
+            console.log('Log de inicio de sesión guardado en MongoDB');
+
             res.status(200).json({ message: 'Inicio de sesión exitoso', ...resultado });
         }
         catch (error) {
