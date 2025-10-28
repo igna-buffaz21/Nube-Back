@@ -1,5 +1,5 @@
 const CarpetasNegocio = require('../Negocio/carpetasN');
-const { guardarLog } = require('../AccesoDatos/loggerMongoAD.js');
+const LogsDAO = require('../AccesoDatos/loggerMongoAD.js');
 
 class CarpetasController {
 
@@ -9,7 +9,7 @@ class CarpetasController {
 
             const resultado = await CarpetasNegocio.crearCarpeta(user_id, nombre, parent_id);
 
-            await guardarLog({
+            await LogsDAO.guardarLog({
                 userId: user_id,
                 username: "-",
                 action: "Se creo una carpeta",

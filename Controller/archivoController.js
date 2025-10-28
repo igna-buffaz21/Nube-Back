@@ -1,5 +1,5 @@
 const ArchivosNegocio = require('../Negocio/archivosN');
-const { guardarLog } = require('../AccesoDatos/loggerMongoAD.js');
+const LogsDAO = require('../AccesoDatos/loggerMongoAD.js');
 
 class ArchivoController {
 
@@ -13,7 +13,7 @@ class ArchivoController {
 
             const resultado = await ArchivosNegocio.guardarArchivo(user_id, req.file.originalname, folder_id, file);
 
-            await guardarLog({
+            await LogsDAO.guardarLog({
                 userId: user_id,
                 username: "-",
                 action: "Se subio un archivo",

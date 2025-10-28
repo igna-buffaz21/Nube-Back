@@ -17,6 +17,7 @@ app.use(cors({
 const usuarioRouter = require('./Router/usuarioR');
 const carpetasRouter = require('./Router/carpetasR');
 const archivosRouter = require('./Router/archivosR');
+const loggerRouter = require('./Router/loggerMongoR.js')
 
 app.use(express.json());
 
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use('/api/usuarios', usuarioRouter);
 app.use('/api/carpetas', carpetasRouter);
 app.use('/api/archivos', archivosRouter);
+app.use('/api/logger', loggerRouter)
 
 
 const storage = multer.diskStorage({

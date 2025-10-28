@@ -1,5 +1,5 @@
 const UsuariosNegocio = require('../Negocio/usuariosN');
-const { guardarLog } = require('../AccesoDatos/loggerMongoAD.js');
+const LogsDAO = require('../AccesoDatos/loggerMongoAD.js');
 
 class UsuarioController {
 
@@ -34,7 +34,7 @@ class UsuarioController {
 
             const { token, id } = await UsuariosNegocio.iniciarSesion(email, password);
 
-            await guardarLog({
+            await LogsDAO.guardarLog({
                 userId: id,
                 username: "-",
                 action: "Inicio de sesión",
