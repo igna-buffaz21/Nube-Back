@@ -4,6 +4,7 @@ const multer = require('multer');
 const pool = require('./config/db.js');
 const path = require('path');
 const cors = require('cors');
+const connectMongo = require('./config/mongodb.js')
 
 const app = express();
 
@@ -52,6 +53,8 @@ app.get('/', async (req, res) => {
     res.status(500).send('DB connection failed');
   }
 }); ///PRUEBA SERVIDOR Y DB
+
+connectMongo();
 
 app.post('/upload', upload.single('file'), (req, res) => {
 

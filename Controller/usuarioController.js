@@ -1,4 +1,5 @@
 const UsuariosNegocio = require('../Negocio/usuariosN');
+const { guardarLog } = require('../AccesoDatos/loggerMongoAD.js');
 
 class UsuarioController {
 
@@ -32,6 +33,15 @@ class UsuarioController {
             const { email, password } = req.body;
 
             const resultado = await UsuariosNegocio.iniciarSesion(email, password);
+
+            await guardarLog({
+                userId: 1,
+                username: "hola",
+                action: "LOGIN",
+                description: `Usuario con email ${email} inició sesión.`,
+                req,
+                date: new Date().toISOString()
+            })
 
             res.status(200).json({ message: 'Inicio de sesión exitoso', ...resultado });
         }

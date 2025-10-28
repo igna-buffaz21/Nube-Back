@@ -1,0 +1,121 @@
+///ENDPOINT LOGIN
+
+-Router:
+
+    router.post('/iniciarSesion', UsuarioController.iniciarSesion);
+
+-Controller:
+
+    static async iniciarSesion(req, res) {
+        try {
+            const { email, password } = req.body;
+
+            const resultado = await UsuariosNegocio.iniciarSesion(email, password);
+
+            res.status(200).json({ message: 'Inicio de sesión exitoso', ...resultado });
+        }
+        catch (error) {
+            console.error('Error en el controlador al iniciar sesión:', error);
+            res.status(500).json({ error: error.message || 'Error al iniciar sesión' });
+        }
+    }
+
+-Negocio
+
+    static async iniciarSesion(email, password) {
+        const user = await UsuariosDAO.iniciarSesion(email);
+
+        if (!user) {
+            throw new Error('Usuario no encontrado');
+        }
+
+        const match = await bcrypt.compare(password, user.password);
+
+        if (!match) {
+            throw new Error('Credenciales incorrectas');
+        }
+
+        const token = jwt.sign(
+            {
+                id: user.id
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: process.env.JWT_EXPIRES_IN
+            }
+        )
+
+        return { token };
+    }
+
+-Acceso Datos
+
+    static async iniciarSesion(email) {
+        try {
+            const [rows] = await pool.query('SELECT id, email, password FROM user WHERE email = ?', [email]);
+
+            return rows[0] || null;
+        }
+        catch (error) {
+
+        }
+    }
+
+///ENDPOINT PROCEDIMIENTO
+
+-Router:
+    router.get("/files/filter", FilesController.getByMimeAndSize);
+
+-Controller:
+
+    static async getByMimeAndSize(req, res) {
+        try {
+            const { mime_type, min_size } = req.query; // o req.body si preferís POST
+
+            const files = await FilesNegocio.getByMimeAndSize(mime_type, parseInt(min_size));
+
+            res.status(200).json({ message: "Archivos obtenidos correctamente", data: files });
+        } 
+        catch (error) {
+            console.error("Error en el controlador al obtener archivos:", error);
+            res.status(500).json({ error: error.message || "Error al obtener archivos" });
+        }
+    }
+
+-Negocio:
+
+    static async getByMimeAndSize(mime_type, min_size) {
+        if (typeof mime_type !== "string" || mime_type.trim() === "") {
+            throw new Error("El tipo MIME es inválido");
+        }
+
+        if (isNaN(min_size) || min_size < 0) {
+            throw new Error("El tamaño mínimo debe ser un número positivo");
+        }
+
+        const files = await FilesDAO.getByMimeAndSize(mime_type, min_size);
+
+        if (!files || files.length === 0) {
+            throw new Error("No se encontraron archivos con los filtros indicados");
+        }
+
+        return files;
+    }
+
+-Acceso Datos:
+
+    static async getByMimeAndSize(mime_type, min_size) {
+        try {
+            const [rows] = await pool.query(
+                "CALL get_files_where_mime_type_size(?, ?)",
+                [mime_type, min_size]
+            );
+
+            return rows[0] || rows;
+        } 
+        catch (error) {
+            console.error("Error en el DAO al ejecutar el procedimiento:", error);
+            throw new Error("Error en la base de datos al obtener archivos");
+        }
+    }
+
